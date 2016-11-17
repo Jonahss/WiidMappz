@@ -34,3 +34,7 @@ a:hover {
 .leaflet-container {
   height: 1000px;
 }
+
+.leaflet-tile-loaded {
+  opacity: .4 !important;
+}
