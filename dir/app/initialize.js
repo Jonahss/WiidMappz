@@ -1,6 +1,8 @@
-import ReactDOM from 'react-dom';
-import React from 'react';
-import EazeMap from 'components/map';
+import ReactDOM from 'react-dom'
+import React from 'react'
+import EazeMap from 'components/map'
+
+import Ion from 'ion-sound'
 
 const position = [37.7700, -122.3500]
 const zoom = 13.0
@@ -30,6 +32,22 @@ var potential_orders = [ { latitude: 37.7615487, longitude: -122.4191631 },
   })
 
 var orders = []
+
+var sounds = ion.sound({
+    sounds: [
+        {
+          name: "dadadadadahhhh",
+          alias: "intro"
+        }
+    ],
+    volume: 0.5,
+    preload: true,
+    multiplay: true,
+    ready_callback: () => {
+      console.log('ion-sound is ready')
+    },
+    path: "/"
+})
 
 var renderView = function(orders) {
   ReactDOM.render(React.createElement(EazeMap, {position, zoom, orders}), document.querySelector('#map-container'));

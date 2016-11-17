@@ -2,7 +2,6 @@ import React from 'react'
 import {Map, Marker, Popup, TileLayer} from 'react-leaflet'
 import Leaflet from 'leaflet'
 
-console.log('icon', Leaflet.icon)
 
 export default class EazeMap extends React.Component {
   render() {
