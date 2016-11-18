@@ -87,6 +87,7 @@ var addOrder = function(order) {
   renderView(orders)
   if (order.status == "Yo, hook me up!" || order.status == "I got ya!"){
     ion.sound.play('newOrder')
+    window.leaflet.panTo([order.location.latitude, order.location.longitude], {animate: true})
   }
 }
 

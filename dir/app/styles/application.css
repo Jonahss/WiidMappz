@@ -32,9 +32,11 @@ a:hover {
 }
 
 .leaflet-container {
-  height: 1000px;
+  height: 800px;
 }
 
 .leaflet-tile-loaded {
   opacity: .7 !important;
 }
+
+html, body { padding: 0; margin: 0; box-sizing: border-box; border: 0px }

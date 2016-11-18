@@ -5,8 +5,7 @@ import Leaflet from 'leaflet'
 
 export default class EazeMap extends React.Component {
   componentDidUpdate(props, context) {
-    console.log('map updated', this)
-
+    console.log('map updated')
   }
 
   render() {
@@ -22,7 +21,7 @@ export default class EazeMap extends React.Component {
       </Marker>
     })
 
-    return (
+    var map = (
       <Map center={this.props.position} zoom={this.props.zoom}>
         <TileLayer
           url='http://korona.geog.uni-heidelberg.de/tiles/roadsg/x={x}&y={y}&z={z}'
@@ -31,5 +30,7 @@ export default class EazeMap extends React.Component {
         {markers}
       </Map>
     )
+
+    return map
   }
 }
