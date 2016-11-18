@@ -4,15 +4,20 @@ import Leaflet from 'leaflet'
 
 
 export default class EazeMap extends React.Component {
+  componentDidUpdate(props, context) {
+    console.log('map updated', this)
+
+  }
+
   render() {
     var icon = Leaflet.icon({
       iconUrl: 'joint.png',
       iconSize: [12, 60]
     })
-    var markers = this.props.orders.map((l) => {
-      return <Marker position={l} icon={icon}>
+    var markers = this.props.orders.map((order) => {
+      return <Marker position={[order.location.latitude, order.location.longitude]} icon={icon} key={order.orderId}>
         <Popup>
-          <span>A pretty CSS3 popup.<br/>Easily customizable.</span>
+          <span>id: {order.orderId}<br/>status: {order.status}</span>
         </Popup>
       </Marker>
     })

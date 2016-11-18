@@ -2,14 +2,27 @@ import ReactDOM from 'react-dom'
 import React from 'react'
 import EazeMap from 'components/map'
 import PubNub from 'pubnub'
+import Order from './order.js'
 
 import Ion from 'ion-sound'
 
 var pubnub = new PubNub({
-  subscribeKey: 'demo'
+  subscribeKey: 'sub-c-1cdd65fc-ad22-11e6-9ab5-0619f8945a4f'
 })
 
+pubnub.subscribe({
+  channels: ['hackday_updates']
+})
 
+pubnub.addListener({
+  message: (message) => {
+    console.log('got a message', message.message)
+    var order = new Order(message.message)
+    addOrder(order)
+  }
+})
+
+var a = require('react-leaflet')
 
 const position = [37.7700, -122.3500]
 const zoom = 13.0
@@ -46,8 +59,8 @@ var sounds = ion.sound({
           name: "The Next Episode",
           alias: "intro",
           ended_callback: () => {
-            addOrder();
-            setInterval(addOrder, 2000)
+            //addOrder();
+            //setInterval(addOrder, 2000)
           }
 
         },
@@ -69,11 +82,12 @@ var renderView = function(orders) {
   ReactDOM.render(React.createElement(EazeMap, {position, zoom, orders}), document.querySelector('#map-container'));
 }
 
-var addOrder = function() {
-  console.log('adding order')
-  orders.push(potential_orders[orders.length])
+var addOrder = function(order) {
+  orders.push(order)
   renderView(orders)
-  ion.sound.play('newOrder')
+  if (order.status == "Yo, hook me up!" || order.status == "I got ya!"){
+    ion.sound.play('newOrder')
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
