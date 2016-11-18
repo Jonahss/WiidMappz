@@ -27,7 +27,7 @@ var a = require('react-leaflet')
 const position = [37.7700, -122.3500]
 const zoom = 13.0
 
-var potential_orders = [ { latitude: 37.7615487, longitude: -122.4191631 },
+var test_orders = [ { latitude: 37.7615487, longitude: -122.4191631 },
   { latitude: 37.7924472, longitude: -122.3995004 },
   { latitude: 37.777607, longitude: -122.3909239 },
   { latitude: 37.7613407, longitude: -122.4884015 },
@@ -51,7 +51,7 @@ var potential_orders = [ { latitude: 37.7615487, longitude: -122.4191631 },
     return [i.latitude, i.longitude]
   })
 
-var orders = []
+var orders = {}
 
 var sounds = ion.sound({
     sounds: [
@@ -66,7 +66,20 @@ var sounds = ion.sound({
         },
         {
           name: "dadadadadahhhh",
-          alias: "newOrder"
+          alias: 'newOrder',
+          volume: 0.3
+        },
+        {
+          name: "bong hit",
+          alias: 'delivered'
+        },
+        {
+          name: "cough",
+          alias: 'canceled'
+        },
+        {
+          name: "chaching",
+          alias: '??'
         }
     ],
     volume: 0.5,
@@ -83,12 +96,18 @@ var renderView = function(orders) {
 }
 
 var addOrder = function(order) {
-  orders.push(order)
+  orders[order.id] = order
   renderView(orders)
   if (order.status == "Yo, hook me up!" || order.status == "I got ya!"){
     ion.sound.play('newOrder')
-    window.leaflet.panTo([order.location.latitude, order.location.longitude], {animate: true})
   }
+  if (order.status == "Just dropped it off."){
+    ion.sound.play('delivered')
+  }
+  if (order.status == "Nevermind, man." || order.status == 'Driver like "Nah ..."'){
+    ion.sound.play('canceled')
+  }
+  window.leaflet.panTo([order.location.latitude, order.location.longitude], {animate: true})
 }
 
 document.addEventListener('DOMContentLoaded', () => {

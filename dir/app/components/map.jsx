@@ -1,6 +1,7 @@
 import React from 'react'
-import {Map, Marker, Popup, TileLayer} from 'react-leaflet'
-import Leaflet from 'leaflet'
+import {Map, TileLayer} from 'react-leaflet'
+import Marker from './marker.jsx'
+import _ from 'lodash'
 
 
 export default class EazeMap extends React.Component {
@@ -9,16 +10,9 @@ export default class EazeMap extends React.Component {
   }
 
   render() {
-    var icon = Leaflet.icon({
-      iconUrl: 'joint.png',
-      iconSize: [12, 60]
-    })
-    var markers = this.props.orders.map((order) => {
-      return <Marker position={[order.location.latitude, order.location.longitude]} icon={icon} key={order.orderId}>
-        <Popup>
-          <span>id: {order.orderId}<br/>status: {order.status}</span>
-        </Popup>
-      </Marker>
+
+    var markers = _.values(this.props.orders).map((order) => {
+      return React.createElement(Marker, order)
     })
 
     var map = (
