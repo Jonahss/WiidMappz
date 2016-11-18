@@ -5,5 +5,6 @@ module.exports = class Order {
     this.status = message.status
     this.price = message.total
     this.key = this.id
+    this.new = message.new
   }
 }

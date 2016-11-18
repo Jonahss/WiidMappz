@@ -5,6 +5,7 @@ import PubNub from 'pubnub'
 import Order from './order.js'
 
 import Ion from 'ion-sound'
+import Random from 'random-number'
 
 var pubnub = new PubNub({
   subscribeKey: 'sub-c-1cdd65fc-ad22-11e6-9ab5-0619f8945a4f'
@@ -18,7 +19,8 @@ pubnub.addListener({
   message: (message) => {
     console.log('got a message', message.message)
     var order = new Order(message.message)
-    addOrder(order)
+    var fuzzTime = Random({min: 1, max: 9000, integer: true}) // to fuzz order timing as they come in to make it sound more natural. since the event publisher is polling at intervals
+    setTimeout(() => { addOrder(order) }, fuzzTime)
   }
 })
 
@@ -71,7 +73,8 @@ var sounds = ion.sound({
         },
         {
           name: "bong hit",
-          alias: 'delivered'
+          alias: 'delivered',
+          volume: 0.9
         },
         {
           name: "cough",
@@ -79,7 +82,7 @@ var sounds = ion.sound({
         },
         {
           name: "chaching",
-          alias: '??'
+          alias: 'money'
         }
     ],
     volume: 0.5,
@@ -98,8 +101,12 @@ var renderView = function(orders) {
 var addOrder = function(order) {
   orders[order.id] = order
   renderView(orders)
+
   if (order.status == "Yo, hook me up!" || order.status == "I got ya!"){
     ion.sound.play('newOrder')
+    if (order.price > 100) {
+      setTimeout(() => { ion.sound.play('money') }, 1500)
+    }
   }
   if (order.status == "Just dropped it off."){
     ion.sound.play('delivered')
