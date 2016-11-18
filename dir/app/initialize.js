@@ -1,8 +1,15 @@
 import ReactDOM from 'react-dom'
 import React from 'react'
 import EazeMap from 'components/map'
+import PubNub from 'pubnub'
 
 import Ion from 'ion-sound'
+
+var pubnub = new PubNub({
+  subscribeKey: 'demo'
+})
+
+
 
 const position = [37.7700, -122.3500]
 const zoom = 13.0
@@ -36,8 +43,17 @@ var orders = []
 var sounds = ion.sound({
     sounds: [
         {
+          name: "The Next Episode",
+          alias: "intro",
+          ended_callback: () => {
+            addOrder();
+            setInterval(addOrder, 2000)
+          }
+
+        },
+        {
           name: "dadadadadahhhh",
-          alias: "intro"
+          alias: "newOrder"
         }
     ],
     volume: 0.5,
@@ -57,9 +73,11 @@ var addOrder = function() {
   console.log('adding order')
   orders.push(potential_orders[orders.length])
   renderView(orders)
+  ion.sound.play('newOrder')
 }
 
 document.addEventListener('DOMContentLoaded', () => {
+  ion.sound.play('intro')
   renderView(orders)
-  setInterval(addOrder, 1000)
+  // intro sound ended_callback begins messages coming down
 });
