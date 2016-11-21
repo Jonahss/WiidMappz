@@ -8,7 +8,7 @@ import Ion from 'ion-sound'
 import Random from 'random-number'
 
 var pubnub = new PubNub({
-  subscribeKey: 'sub-c-1cdd65fc-ad22-11e6-9ab5-0619f8945a4f'
+  subscribeKey: 
 })
 
 pubnub.subscribe({
