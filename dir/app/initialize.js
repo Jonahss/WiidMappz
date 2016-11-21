@@ -114,7 +114,6 @@ var addOrder = function(order) {
   if (order.status == "Nevermind, man." || order.status == 'Driver like "Nah ..."'){
     ion.sound.play('canceled')
   }
-  window.leaflet.panTo([order.location.latitude, order.location.longitude], {animate: true})
 }
 
 document.addEventListener('DOMContentLoaded', () => {

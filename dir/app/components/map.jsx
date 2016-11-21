@@ -6,7 +6,9 @@ import _ from 'lodash'
 
 export default class EazeMap extends React.Component {
   componentDidUpdate(props, context) {
-    console.log('map updated')
+    var map = this.refs.map.leafletElement
+    console.log('refs', this.refs)
+    map.panTo([order.location.latitude, order.location.longitude], {animate: true})
   }
 
   render() {
